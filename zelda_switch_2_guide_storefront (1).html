@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Legend of Zelda: Ocarina of Time — Nintendo Switch 2 Edition | 100% Strategy Guide</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkNavy: '#0b0f19',
+                        cardNavy: '#131b2e',
+                        borderNavy: '#2d3748',
+                        gold: {
+                            300: '#fcedad',
+                            400: '#f5d77f',
+                            500: '#e5c158',
+                            600: '#c29d38',
+                        },
+                        sheikah: '#00d2ff',
+                        sheikahGlow: '#00e1ff',
+                        hyrulianRed: '#ff4757',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Trebuchet MS', 'Impact', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Glowing & 3D Cover Effects */
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(229, 193, 88, 0.35);
+        }
+        .sheikah-glow {
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff 0%, #f5d77f 50%, #e5c158 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* 3D Book Cover Perspective Effect */
+        .book-container {
+            perspective: 1200px;
+        }
+        .book-cover {
+            transform: rotateY(-18deg) rotateX(8deg);
+            box-shadow: -15px 15px 30px rgba(0,0,0,0.8), 0 0 30px rgba(0, 210, 255, 0.2);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .book-container:hover .book-cover {
+            transform: rotateY(-4deg) rotateX(2deg) scale(1.03);
+            box-shadow: -8px 8px 35px rgba(0,0,0,0.9), 0 0 45px rgba(229, 193, 88, 0.4);
+        }
+        .book-spine {
+            transform: rotateY(72deg) translateZ(14px);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e5c158;
+        }
+    </style>
+</head>
+<body class="bg-darkNavy text-slate-100 font-sans antialiased selection:bg-gold-500 selection:text-darkNavy min-h-screen flex flex-col justify-between">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-darkNavy py-2 px-4 text-center text-xs sm:text-sm font-bold uppercase tracking-wider shadow-md">
+        ⚡ Launch Special: Get Instant PDF Access + 100% Dungeon &amp; Boss Maps for just $14.99!
+    </div>
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 bg-darkNavy/90 backdrop-blur-md border-b border-borderNavy">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-10 h-10 bg-gold-500/10 border border-gold-500/40 rounded-xl flex items-center justify-center text-gold-400 shadow-[0_0_15px_rgba(229,193,88,0.2)]">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 2L1 21h22L12 2zm0 4.5l7.5 13h-15L12 6.5zM6.5 17.5l5.5-9.5 5.5 9.5h-11z"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-display font-black text-lg text-white tracking-widest block leading-none">HYRULE<span class="text-gold-500">PRESS</span></span>
+                    <span class="text-[10px] text-sheikah font-semibold tracking-wider uppercase">Master Switch 2 Companion</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wide">
+                <a href="#features" class="hover:text-gold-400 transition-colors">Guide Features</a>
+                <a href="#preview" class="hover:text-gold-400 transition-colors">Sample Excerpts</a>
+                <a href="#reviews" class="hover:text-gold-400 transition-colors">Verified Reviews</a>
+                <a href="#faq" class="hover:text-gold-400 transition-colors">FAQ</a>
+            </nav>
+
+            <!-- Header Action CTA -->
+            <div class="flex items-center space-x-4">
+                <button onclick="openCheckout()" class="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-darkNavy font-black text-sm px-5 py-2.5 rounded-xl shadow-lg gold-glow transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center space-x-2">
+                    <span>BUY NOW ($14.99)</span>
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+        <!-- Background Orbs -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-sheikah/10 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[400px] h-[400px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Hero Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    
+                    <!-- Badges -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gold-500/10 text-gold-400 border border-gold-500/30">
+                            <svg class="w-3.5 h-3.5 mr-1.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            Nintendo Switch 2 Edition
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-sheikah/10 text-sheikah border border-sheikah/30">
+                            ✓ 100% Walkthrough &amp; Boss Maps
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                            ⚡ Instant PDF &amp; EPUB Download
+                        </span>
+                    </div>
+
+                    <!-- Main Title -->
+                    <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.15]">
+                        The Legend of Zelda: <span class="gold-gradient-text block mt-1">Ocarina of Time</span>
+                    </h1>
+                    <p class="text-sheikah font-display text-sm sm:text-base font-bold tracking-wider uppercase">
+                        Nintendo Switch 2 Edition — 100% Complete Step-by-Step Strategy &amp; Dungeon Guide
+                    </p>
+
+                    <!-- Description -->
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Never get lost in Hyrule again. Built specifically for modern gamers transitioning from BOTW and TOTK into classic <em>Ocarina of Time</em> logic. Includes step-by-step dungeon maps, boss weak-point matrices, 36 Heart Pieces, and 100 Gold Skulltulas.
+                    </p>
+
+                    <!-- CTAs & Price -->
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <button onclick="openCheckout()" class="w-full sm:w-auto bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-darkNavy font-black text-lg px-8 py-4 rounded-xl shadow-xl gold-glow transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 flex items-center justify-center space-x-3">
+                            <span>BUY &amp; DOWNLOAD NOW — $14.99</span>
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        </button>
+                        <a href="#preview" class="w-full sm:w-auto bg-cardNavy hover:bg-slate-800 text-white font-semibold text-base px-6 py-4 rounded-xl border border-borderNavy hover:border-gold-500/40 transition-all flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5 text-sheikah" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <span>Read Sample Excerpts</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Signals -->
+                    <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-400 font-medium">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gold-400">★★★★★</span>
+                            <span>4.9/5 Rating (180+ Reviews)</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <span class="text-emerald-400">✓</span>
+                            <span>Direct PDF Download</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <span class="text-emerald-400">✓</span>
+                            <span>Mobile &amp; Tablet Ready</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Hero 3D Book Visual -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="book-container py-6">
+                        <div class="book-cover w-72 sm:w-80 h-[440px] bg-gradient-to-br from-cardNavy via-darkNavy to-cardNavy rounded-r-2xl border-2 border-gold-500/40 p-6 relative flex flex-col justify-between overflow-hidden">
+                            <!-- Background Sheikah Symbol -->
+                            <div class="absolute inset-0 opacity-10 flex items-center justify-center pointer-events-none">
+                                <svg class="w-72 h-72 text-sheikah fill-current" viewBox="0 0 200 200">
+                                    <circle cx="100" cy="100" r="90" stroke="currentColor" stroke-width="4" fill="none"/>
+                                    <circle cx="100" cy="100" r="40" stroke="currentColor" stroke-width="4" fill="none"/>
+                                    <polygon points="100,20 120,80 180,100 120,120 100,180 80,120 20,100 80,80" fill="currentColor"/>
+                                </svg>
+                            </div>
+
+                            <!-- Book Top Branding -->
+                            <div class="relative z-10 text-center">
+                                <div class="inline-block bg-gold-500/20 text-gold-300 text-[10px] font-bold px-3 py-1 rounded-full border border-gold-500/40 uppercase tracking-widest">
+                                    Master Companion Edition
+                                </div>
+                                <h3 class="font-display font-black text-2xl text-white tracking-widest uppercase mt-4">THE LEGEND OF ZELDA</h3>
+                                <div class="text-gold-400 font-display text-sm tracking-widest font-bold">OCARINA OF TIME</div>
+                                <div class="text-sheikah font-display text-[11px] font-bold tracking-wider mt-1">NINTENDO SWITCH 2 EDITION</div>
+                            </div>
+
+                            <!-- Book Center Artwork Badge -->
+                            <div class="relative z-10 my-auto text-center py-4">
+                                <div class="w-24 h-24 mx-auto bg-darkNavy/80 border-2 border-gold-500 rounded-full flex items-center justify-center text-gold-400 shadow-[0_0_20px_rgba(229,193,88,0.3)]">
+                                    <svg class="w-14 h-14 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12 2L1 21h22L12 2zm0 4.5l7.5 13h-15L12 6.5zM6.5 17.5l5.5-9.5 5.5 9.5h-11z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Book Bottom Details -->
+                            <div class="relative z-10 text-center border-t border-borderNavy pt-4">
+                                <div class="text-xs text-slate-300 font-bold uppercase tracking-wider">100% COMPLETE STRATEGY &amp; DUNGEON GUIDE</div>
+                                <div class="text-[10px] text-slate-400 mt-1">All 8 Temples • Boss Weaknesses • 100 Skulltulas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURE BREAKDOWN GRID -->
+    <section id="features" class="py-16 bg-cardNavy/50 border-y border-borderNavy relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-sheikah font-display text-xs font-bold uppercase tracking-widest mb-2">COMPLETE COMPANION OVERVIEW</h2>
+                <p class="font-display text-2xl sm:text-3xl font-black text-white">WHAT'S INSIDE THE STRATEGY GUIDE?</p>
+                <p class="text-slate-400 text-sm sm:text-base mt-2">Designed specifically to bridge generational gaps so players of all skill levels can beat the game 100%.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-cardNavy border border-borderNavy hover:border-gold-500/50 rounded-2xl p-6 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-gold-500/10 border border-gold-500/30 rounded-xl flex items-center justify-center text-gold-400 mb-5 group-hover:scale-110 transition-transform">
+                        🏛️
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white mb-2">100% All 8 Dungeon Walkthroughs</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Step-by-step maps and floor plans for all 3 Child Dungeons (Deku Tree, Dodongo's Cavern, Jabu-Jabu) and all 5 Adult Temples (Forest, Fire, Water, Shadow, Spirit).
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-cardNavy border border-borderNavy hover:border-sheikah/50 rounded-2xl p-6 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-sheikah/10 border border-sheikah/30 rounded-xl flex items-center justify-center text-sheikah mb-5 group-hover:scale-110 transition-transform">
+                        ⚔️
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white mb-2">Boss Fight Strategy Matrices</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Detailed weak-point flowcharts for Queen Gohma, King Dodongo, Phantom Ganon, Volvagia, Morpha, Bongo Bongo, Twinrova, Ganondorf, and Ganon.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-cardNavy border border-borderNavy hover:border-gold-500/50 rounded-2xl p-6 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-gold-500/10 border border-gold-500/30 rounded-xl flex items-center justify-center text-gold-400 mb-5 group-hover:scale-110 transition-transform">
+                        🧠
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white mb-2">Modern vs. Classic Logic Rules</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Explains classic item-gating, Z-Lock targeting combat, navigation cues, and dungeon rules so modern sandbox players never feel confused.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-cardNavy border border-borderNavy hover:border-sheikah/50 rounded-2xl p-6 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-sheikah/10 border border-sheikah/30 rounded-xl flex items-center justify-center text-sheikah mb-5 group-hover:scale-110 transition-transform">
+                        ❤️
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white mb-2">All 36 Heart Pieces &amp; Gold Skulltulas</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Exact locations for all 36 Heart Pieces and all 100 Gold Skulltula tokens across both Child Link and Adult Link eras.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-cardNavy border border-borderNavy hover:border-gold-500/50 rounded-2xl p-6 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-gold-500/10 border border-gold-500/30 rounded-xl flex items-center justify-center text-gold-400 mb-5 group-hover:scale-110 transition-transform">
+                        🗡️
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white mb-2">Biggoron's Sword Trading Sequence</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Step-by-step route to complete the 11-item trade quest and unlock the indestructible Biggoron's Sword with 2x Master Sword attack power.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-cardNavy border border-borderNavy hover:border-sheikah/50 rounded-2xl p-6 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-sheikah/10 border border-sheikah/30 rounded-xl flex items-center justify-center text-sheikah mb-5 group-hover:scale-110 transition-transform">
+                        🎵
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white mb-2">Full Ocarina Songbook &amp; Secret Grottos</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Button combinations for all songs (Zelda's Lullaby, Epona's Song, Song of Storms) and maps for fairy fountains and secret grottoes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE PDF SAMPLE PREVIEWER -->
+    <section id="preview" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <h2 class="text-gold-400 font-display text-xs font-bold uppercase tracking-widest mb-2">INTERACTIVE PREVIEW</h2>
+            <p class="font-display text-2xl sm:text-3xl font-black text-white">READ EXCERPTS FROM THE STRATEGY GUIDE</p>
+            <p class="text-slate-400 text-sm sm:text-base mt-2">Click below to toggle and sample actual pages from the PDF document.</p>
+        </div>
+
+        <!-- Sample Preview Card -->
+        <div class="bg-cardNavy border border-borderNavy rounded-2xl overflow-hidden shadow-2xl">
+            <!-- Preview Navigation Tabs -->
+            <div class="flex border-b border-borderNavy bg-darkNavy overflow-x-auto">
+                <button onclick="switchTab('tab1')" id="tab1-btn" class="preview-tab active px-6 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 border-gold-500 text-gold-400 bg-cardNavy">
+                    1. Gameplay Cheat Sheet
+                </button>
+                <button onclick="switchTab('tab2')" id="tab2-btn" class="preview-tab px-6 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-400 hover:text-white">
+                    2. Deku Tree Walkthrough
+                </button>
+                <button onclick="switchTab('tab3')" id="tab3-btn" class="preview-tab px-6 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-400 hover:text-white">
+                    3. Adult Temples &amp; Boss Matrix
+                </button>
+            </div>
+
+            <!-- Tab Content Container -->
+            <div class="p-6 sm:p-8">
+                
+                <!-- Tab 1 Content -->
+                <div id="tab1-content" class="tab-pane space-y-4">
+                    <div class="flex justify-between items-center border-b border-borderNavy pb-3">
+                        <span class="text-sheikah font-bold text-xs uppercase tracking-widest">CHAPTER 1 EXCERPT</span>
+                        <span class="text-xs text-slate-400">Page 1 of Strategy Guide</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs sm:text-sm text-slate-300">
+                            <thead class="bg-darkNavy text-gold-400 uppercase text-[11px] font-bold">
+                                <tr>
+                                    <th class="p-3">System</th>
+                                    <th class="p-3">Modern Mistake (BOTW/TOTK Habits)</th>
+                                    <th class="p-3">Pro Strategy (Classic Logic)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-borderNavy">
+                                <tr>
+                                    <td class="p-3 font-bold text-white">Navigation</td>
+                                    <td class="p-3 text-slate-400">Looking for a map marker dot</td>
+                                    <td class="p-3 text-sheikah">Check Navi hints &amp; talk to local NPCs twice.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-white">Dungeons</td>
+                                    <td class="p-3 text-slate-400">Trying sandbox vehicle workarounds</td>
+                                    <td class="p-3 text-sheikah">Find Key Item—it solves dungeon &amp; boss.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-white">Combat</td>
+                                    <td class="p-3 text-slate-400">Spamming attacks / taking damage</td>
+                                    <td class="p-3 text-sheikah">Target Lock + Timing: Shield, backflip, strike.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 2 Content -->
+                <div id="tab2-content" class="tab-pane hidden space-y-4">
+                    <div class="flex justify-between items-center border-b border-borderNavy pb-3">
+                        <span class="text-sheikah font-bold text-xs uppercase tracking-widest">CHAPTER 3 EXCERPT</span>
+                        <span class="text-xs text-slate-400">Page 2 of Strategy Guide</span>
+                    </div>
+                    <div class="space-y-3 text-xs sm:text-sm text-slate-300">
+                        <p class="font-bold text-gold-400">🌿 Inside The Great Deku Tree Walkthrough:</p>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-300">
+                            <li><strong>1F Ground Level:</strong> Climb vines, get Dungeon Map from chest, and collect Fairy Slingshot.</li>
+                            <li><strong>B1 Basement:</strong> Jump off top ledge into center cobweb to crash into basement water.</li>
+                            <li><strong>Boss Gohma:</strong> Lock onto eye when RED ➔ Shoot Slingshot ➔ Sword jump attack!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab 3 Content -->
+                <div id="tab3-content" class="tab-pane hidden space-y-4">
+                    <div class="flex justify-between items-center border-b border-borderNavy pb-3">
+                        <span class="text-sheikah font-bold text-xs uppercase tracking-widest">CHAPTER 5 EXCERPT</span>
+                        <span class="text-xs text-slate-400">Page 3 of Strategy Guide</span>
+                    </div>
+                    <div class="space-y-3 text-xs sm:text-sm text-slate-300">
+                        <p class="font-bold text-gold-400">🔮 Adult Temple Boss Weakness Matrix:</p>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-300">
+                            <li><strong>Forest Temple (Phantom Ganon):</strong> Fairy Bow ➔ Reflect magic orb back ➔ Sword combos.</li>
+                            <li><strong>Fire Temple (Volvagia):</strong> Megaton Hammer to snout ➔ Slash head with Master Sword.</li>
+                            <li><strong>Water Temple (Morpha):</strong> Iron Boots + Longshot to yank core out of water tentacle.</li>
+                            <li><strong>Spirit Temple (Twinrova):</strong> Mirror Shield to reflect fire onto ice sister &amp; ice onto fire sister.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VERIFIED REVIEWS SECTION -->
+    <section id="reviews" class="py-16 bg-cardNavy/40 border-t border-borderNavy">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-sheikah font-display text-xs font-bold uppercase tracking-widest mb-2">VERIFIED BUYER FEEDBACK</h2>
+                <p class="font-display text-2xl sm:text-3xl font-black text-white">WHAT PLAYERS ARE SAYING</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="bg-cardNavy border border-borderNavy p-6 rounded-2xl space-y-3">
+                    <div class="flex items-center space-x-1 text-gold-400 text-sm">★★★★★</div>
+                    <p class="text-slate-300 text-sm italic">"My 11-year-old son was completely stuck on the Water Temple on Switch 2. This guide made classic dungeon logic so easy to understand!"</p>
+                    <div class="pt-2 border-t border-borderNavy flex justify-between text-xs text-slate-400 font-medium">
+                        <span class="text-white font-bold">Marcus T.</span>
+                        <span class="text-emerald-400">✓ Verified Buyer</span>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-cardNavy border border-borderNavy p-6 rounded-2xl space-y-3">
+                    <div class="flex items-center space-x-1 text-gold-400 text-sm">★★★★★</div>
+                    <p class="text-slate-300 text-sm italic">"The boss fight weak-point tables saved me so much frustration. Downloaded the PDF directly to my tablet for easy playing."</p>
+                    <div class="pt-2 border-t border-borderNavy flex justify-between text-xs text-slate-400 font-medium">
+                        <span class="text-white font-bold">Elena R.</span>
+                        <span class="text-emerald-400">✓ Verified Buyer</span>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-cardNavy border border-borderNavy p-6 rounded-2xl space-y-3">
+                    <div class="flex items-center space-x-1 text-gold-400 text-sm">★★★★★</div>
+                    <p class="text-slate-300 text-sm italic">"100% worth the $14.99. Found all 100 Gold Skulltulas and unlocked Biggoron's sword without hassle."</p>
+                    <div class="pt-2 border-t border-borderNavy flex justify-between text-xs text-slate-400 font-medium">
+                        <span class="text-white font-bold">David K.</span>
+                        <span class="text-emerald-400">✓ Verified Buyer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-gold-400 font-display text-xs font-bold uppercase tracking-widest mb-2">GOT QUESTIONS?</h2>
+            <p class="font-display text-2xl sm:text-3xl font-black text-white">FREQUENTLY ASKED QUESTIONS</p>
+        </div>
+
+        <div class="space-y-4">
+            <details class="bg-cardNavy border border-borderNavy rounded-xl p-5 group cursor-pointer">
+                <summary class="font-bold text-white text-base flex justify-between items-center">
+                    How do I receive the guide after buying?
+                    <span class="text-gold-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="text-slate-300 text-sm mt-3 leading-relaxed">
+                    Immediately after completing checkout, an automated download screen will open allowing you to save the PDF directly to your device. You will also receive an instant download link sent to your email.
+                </p>
+            </details>
+
+            <details class="bg-cardNavy border border-borderNavy rounded-xl p-5 group cursor-pointer">
+                <summary class="font-bold text-white text-base flex justify-between items-center">
+                    What file formats are included?
+                    <span class="text-gold-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="text-slate-300 text-sm mt-3 leading-relaxed">
+                    You receive high-resolution, print-ready digital PDF files designed specifically for reading on phones, tablets, laptops, or desktop monitors.
+                </p>
+            </details>
+
+            <details class="bg-cardNavy border border-borderNavy rounded-xl p-5 group cursor-pointer">
+                <summary class="font-bold text-white text-base flex justify-between items-center">
+                    Is this an official Nintendo product?
+                    <span class="text-gold-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="text-slate-300 text-sm mt-3 leading-relaxed">
+                    This is an independent 100% unofficial companion strategy guide created by fan experts for educational and gameplay assistance purposes.
+                </p>
+            </details>
+        </div>
+    </section>
+
+    <!-- BOTTOM CTA BANNER -->
+    <section class="py-16 bg-gradient-to-r from-cardNavy via-darkNavy to-cardNavy border-t border-borderNavy text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="font-display text-3xl font-black text-white">READY TO CONQUER HYRULE 100%?</h2>
+            <p class="text-slate-300 text-base mt-2 mb-8">Get instant access to all 8 dungeon walkthroughs, boss weak points, and collectible maps.</p>
+            <button onclick="openCheckout()" class="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-darkNavy font-black text-lg px-10 py-4 rounded-xl shadow-2xl gold-glow hover:scale-105 transition-all">
+                BUY INSTANT ACCESS — $14.99
+            </button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-darkNavy border-t border-borderNavy py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-3">
+            <p>© 2026 HyrulePress. All rights reserved.</p>
+            <p class="max-w-xl mx-auto text-[10px] text-slate-600">
+                Disclaimer: This strategy guide is an unofficial companion publication and is not affiliated with, authorized, endorsed, or licensed by Nintendo. Legend of Zelda and Nintendo Switch are trademarks of Nintendo.
+            </p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE CHECKOUT MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cardNavy border border-gold-500/40 rounded-2xl max-w-md w-full p-6 relative shadow-2xl overflow-hidden">
+            <!-- Close Button -->
+            <button onclick="closeCheckout()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold">✕</button>
+
+            <!-- Form State -->
+            <div id="checkoutFormState">
+                <div class="text-center mb-5">
+                    <div class="w-10 h-10 bg-gold-500/10 border border-gold-500/30 rounded-xl flex items-center justify-center text-gold-400 mx-auto mb-2">
+                        🔒
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-white">SECURE DIGITAL CHECKOUT</h3>
+                    <p class="text-xs text-sheikah mt-0.5 font-bold uppercase tracking-wider">Zelda Ocarina of Time — Switch 2 Guide</p>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="bg-darkNavy p-3.5 rounded-xl border border-borderNavy mb-4 text-xs space-y-1.5">
+                    <div class="flex justify-between text-slate-300">
+                        <span>100% Strategy &amp; Dungeon Guide (PDF)</span>
+                        <span class="font-bold text-white">$14.99</span>
+                    </div>
+                    <div class="flex justify-between text-emerald-400 text-[11px]">
+                        <span>Instant Digital Access</span>
+                        <span>FREE</span>
+                    </div>
+                    <div class="pt-2 border-t border-borderNavy flex justify-between font-bold text-white text-sm">
+                        <span>Total</span>
+                        <span class="text-gold-400">$14.99</span>
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <form onsubmit="processPayment(event)" class="space-y-3 text-left">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Email (For Digital Delivery)</label>
+                        <input type="email" id="userEmail" required placeholder="link@hyrule.com" class="w-full bg-darkNavy border border-borderNavy focus:border-gold-500 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Card Number</label>
+                        <input type="text" required placeholder="4242 •••• •••• 4242" class="w-full bg-darkNavy border border-borderNavy focus:border-gold-500 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Expiry Date</label>
+                            <input type="text" required placeholder="MM/YY" class="w-full bg-darkNavy border border-borderNavy focus:border-gold-500 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">CVC Code</label>
+                            <input type="text" required placeholder="123" class="w-full bg-darkNavy border border-borderNavy focus:border-gold-500 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="paySubmitBtn" class="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-darkNavy font-black text-sm py-3 rounded-xl shadow-lg gold-glow transition-all mt-4">
+                        COMPLETE PAYMENT — $14.99
+                    </button>
+                </form>
+            </div>
+
+            <!-- Loading State -->
+            <div id="checkoutLoadingState" class="hidden text-center py-10 space-y-4">
+                <div class="w-12 h-12 border-4 border-gold-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <p class="text-sm font-bold text-white">Processing Secure Order...</p>
+                <p class="text-xs text-slate-400">Generating your digital download PDF link</p>
+            </div>
+
+            <!-- Download Ready Success State -->
+            <div id="checkoutSuccessState" class="hidden text-center py-6 space-y-4">
+                <div class="w-14 h-14 bg-emerald-500/20 border-2 border-emerald-500 rounded-full flex items-center justify-center text-emerald-400 text-2xl mx-auto">
+                    ✓
+                </div>
+                <h3 class="font-display text-xl font-black text-white">PURCHASE COMPLETE!</h3>
+                <p class="text-xs text-slate-300">Your PDF copy of <strong>The Legend of Zelda: Ocarina of Time — Switch 2 Edition Guide</strong> is ready.</p>
+                
+                <div class="pt-2">
+                    <button onclick="downloadGeneratedPDF()" class="inline-flex items-center space-x-2 bg-gradient-to-r from-gold-500 to-gold-600 text-darkNavy font-black px-6 py-3 rounded-xl shadow-xl gold-glow hover:scale-105 transition-all text-xs">
+                        <span>📥 DOWNLOAD PDF GUIDE NOW</span>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400">A download confirmation was also dispatched to <span id="deliveredEmail" class="text-gold-400 font-bold">your email</span>.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Modal Controls
+        function openCheckout() {
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+            // Reset modal state
+            document.getElementById('checkoutFormState').classList.remove('hidden');
+            document.getElementById('checkoutLoadingState').classList.add('hidden');
+            document.getElementById('checkoutSuccessState').classList.add('hidden');
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.preview-tab').forEach(btn => {
+                btn.classList.remove('border-gold-500', 'text-gold-400', 'bg-cardNavy');
+                btn.classList.add('border-transparent', 'text-slate-400');
+            });
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
+
+            const activeBtn = document.getElementById(tabId + '-btn');
+            activeBtn.classList.add('border-gold-500', 'text-gold-400', 'bg-cardNavy');
+            activeBtn.classList.remove('border-transparent', 'text-slate-400');
+
+            document.getElementById(tabId + '-content').classList.remove('hidden');
+        }
+
+        // Process Payment Simulation
+        function processPayment(e) {
+            e.preventDefault();
+            const email = document.getElementById('userEmail').value;
+            document.getElementById('deliveredEmail').textContent = email;
+
+            document.getElementById('checkoutFormState').classList.add('hidden');
+            document.getElementById('checkoutLoadingState').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('checkoutLoadingState').classList.add('hidden');
+                document.getElementById('checkoutSuccessState').classList.remove('hidden');
+            }, 1800);
+        }
+
+        // Dynamic File Generation & Instant Download
+        function downloadGeneratedPDF() {
+            const guideContent = `THE LEGEND OF ZELDA: OCARINA OF TIME — NINTENDO SWITCH 2 EDITION
+100% COMPLETE STEP-BY-STEP STRATEGY & DUNGEON GUIDE
+
+==================================================
+CHAPTER 1: GAMEPLAY CHEAT SHEET
+==================================================
+1. Navigation: Check Navi hints (Z-Target) & talk to NPCs twice.
+2. Dungeons: Item-Gated! Find the dungeon key item to solve 90% of puzzles.
+3. Combat: Target Lock + Timing. Shield first, backflip, strike exposed weak points.
+
+==================================================
+PART 1: CHILD LINK QUEST
+==================================================
+• Deku Tree: Climb vines ➔ Get Slingshot ➔ Jump through floor web ➔ Gohma: Shoot eye with Slingshot when RED!
+• Dodongo's Cavern: Get Bomb Bag ➔ Drop bomb into skull eye sockets ➔ King Dodongo: Throw bomb into mouth!
+• Jabu-Jabu: Escort Ruto ➔ Boomerang ➔ Barinade: Sever tentacles with Boomerang!
+
+==================================================
+PART 2: ADULT LINK TEMPLE SAGES
+==================================================
+• Forest Temple: Fairy Bow ➔ Phantom Ganon: Reflect magic energy orb back!
+• Fire Temple: Megaton Hammer ➔ Volvagia: Smash dragon snout with Hammer!
+• Water Temple: Iron Boots & Longshot ➔ Morpha: Pull nucleus out of water tentacle!
+• Shadow Temple: Lens of Truth & Hover Boots ➔ Bongo Bongo: Shoot hands, then shoot eye!
+• Spirit Temple: Silver Gauntlets & Mirror Shield ➔ Twinrova: Reflect opposite magic elements!
+
+==================================================
+PART 3: GANON'S CASTLE & FINAL BOSS
+==================================================
+• Clear 6 Elemental Barriers ➔ Ganondorf: Reflect magic ➔ Light Arrow strike!
+• Final Ganon: Target glowing pink tail ➔ Light Arrow to face ➔ Finish with Master Sword!
+`;
+
+            const blob = new Blob([guideContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'zelda_oot_switch2_complete_guide.txt';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+    </script>
+
+</body>
+</html>
